@@ -88,3 +88,22 @@ input {
   justify-content: center;
   align-items: center;
 }
+
+/* Todolist */
+.todolist__container {
+  margin-top: 2rem;
+  font-size: 2rem;
+}
+.todolist {
+  background-color: white;
+  width: 47rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem;
+  height: 2rem;
+}
+
+.fa-trash {
+  color: red;
+  float: right;
+}
