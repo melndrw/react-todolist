@@ -102,6 +102,7 @@ input {
   border-radius: 0.5rem;
   margin: 1rem;
   height: 2rem;
+  cursor: pointer;
 }
 .todolist span {
   float: right;
@@ -119,6 +120,7 @@ input {
   color: hsl(180, 100%, 43%);
   cursor: pointer;
 }
-.todolist__button {
-  display: none;
+.check-style {
+  color: red;
+  background-color: #eaf2f2;
 }

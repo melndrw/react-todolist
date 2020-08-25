@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import Todolist from './Todolist';
 import shortid from 'shortid';
+import Form from './Form';
 
 const MainPage = () => {
   const [newItem, setItem] = useState({
     value: '',
     id: '',
+    trigger: false,
   });
 
   const [addItem, setAddItem] = useState(
@@ -24,7 +26,7 @@ const MainPage = () => {
       });
       setItem({
         value: '',
-        id: '',
+        id: e.target.id,
       });
       localStorage.setItem('addedItem', JSON.stringify(addItem));
     }
@@ -51,6 +53,20 @@ const MainPage = () => {
       value: selectedItem.value,
     });
   };
+  let key = false;
+  const finishedHandler = (id) => {
+    if (!key) {
+      const element = document.getElementById(id);
+      element.classList.add('check-style');
+      key = true;
+      console.log(key);
+    } else {
+      const element = document.getElementById(id);
+      element.classList.remove('check-style');
+      key = false;
+      console.log(key);
+    }
+  };
 
   return (
     <div className="mainpage__container">
@@ -66,16 +82,13 @@ const MainPage = () => {
             <p>A simple todolist app built with React Hooks & Context</p>
           </div>
           <div>
-            <form onSubmit={newItemTrigger}>
-              <input
-                type="text"
-                onChange={newItemHandler}
-                placeholder="Add you list here..."
-                id="input"
-                value={newItem.value}
-              />
-              <button type="submit" className="todolist__button"></button>
-            </form>
+            <Form
+              placeholder="Add you task here..."
+              onSubmit={newItemTrigger}
+              onChange={newItemHandler}
+              type="text"
+              value={newItem.value}
+            />
           </div>
           <div className="todolist__container">
             {addItem.map((store) => {
@@ -86,6 +99,8 @@ const MainPage = () => {
                   id={store.id}
                   onDelete={deleteItemHandler}
                   onEdit={editItemHandler}
+                  checkStyle={newItem.trigger && 'check-style'}
+                  checkClick={finishedHandler}
                 />
               );
             })}
