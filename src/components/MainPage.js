@@ -28,10 +28,28 @@ const MainPage = () => {
   };
 
   const deleteItemHandler = (id) => {
-    setAddItem((prevState) => {
-      return prevState.filter((item) => {
-        return item.id !== id;
-      });
+    const deleteItem = addItem.filter((item) => {
+      return item.id !== id;
+    });
+
+    setAddItem(deleteItem);
+    // setAddItem((prevState) => {
+    //   return prevState.filter((item) => {
+    //     return item.id !== id;
+    //   });
+    // });
+  };
+
+  const editItemHandler = (id) => {
+    const editItem = addItem.filter((item) => {
+      return item.id !== id;
+    });
+
+    const selectedItem = addItem.find((item) => item.id === id);
+
+    setAddItem(editItem);
+    setItem({
+      value: selectedItem.value,
     });
   };
 
@@ -68,6 +86,7 @@ const MainPage = () => {
                   key={store.id}
                   id={store.id}
                   onDelete={deleteItemHandler}
+                  onEdit={editItemHandler}
                 />
               );
             })}
