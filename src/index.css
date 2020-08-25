@@ -10,7 +10,7 @@ body,
 input {
   margin: 0;
   padding: 0;
-  background-color: #eee;
+  background-color: #eaf2f2;
   /* height: 100%; */
   font-family: Montserrat, Arial, Helvetica, sans-serif;
   font-size: 1.6rem;
@@ -28,7 +28,7 @@ input {
   height: 100vh;
 }
 .mainpage__header {
-  background-color: #dddddd;
+  background-color: #e6e6e6;
   grid-area: header;
   font-size: 2rem;
   padding: 1rem;
@@ -54,6 +54,7 @@ input {
 .mainpage__main--title {
   font-size: 8rem;
   text-align: center;
+  color: #384558;
 }
 .mainpage__main--title p {
   margin: 0;
@@ -81,7 +82,7 @@ input {
 }
 
 .mainpage__footer {
-  background-color: #dddddd;
+  background-color: #e6e6e6;
   grid-area: footer;
   font-size: 1.6rem;
   display: flex;
@@ -95,7 +96,7 @@ input {
   font-size: 2rem;
 }
 .todolist {
-  background-color: white;
+  background-color: hsl(180, 24%, 86%);
   width: 47rem;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -106,4 +107,11 @@ input {
 .fa-trash {
   color: red;
   float: right;
+}
+.fa-pen {
+  padding-left: 1.5rem;
+  color: hsl(180, 100%, 43%);
+}
+.todolist__button {
+  display: none;
 }

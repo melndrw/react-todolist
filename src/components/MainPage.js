@@ -14,14 +14,8 @@ const MainPage = () => {
     setItem({ value: event.target.value, id: shortid.generate() });
   };
 
-  const newItemTrigger = () => {
-    // let input = document.querySelector('#input');
-    // input.addEventListener('keydown', (e) => {
-    //   if (e.keyCode === 13) {
-    //     console.log(e.target.value);
-    //   }
-    // });
-
+  const newItemTrigger = (e) => {
+    e.preventDefault();
     if (newItem.value) {
       setAddItem((preState) => {
         return [...preState, { value: newItem.value, id: newItem.id }];
@@ -44,21 +38,19 @@ const MainPage = () => {
             <p>
               todo<span>list</span>
             </p>
-            <p>
-              A simple todolist app built with React Hooks &{' '}
-              <span onClick={newItemTrigger} id="sp">
-                Context
-              </span>
-            </p>
+            <p>A simple todolist app built with React Hooks & Context</p>
           </div>
           <div>
-            <input
-              type="text"
-              onChange={newItemHandler}
-              placeholder="Add you list here..."
-              id="input"
-              value={newItem.value}
-            />
+            <form onSubmit={newItemTrigger}>
+              <input
+                type="text"
+                onChange={newItemHandler}
+                placeholder="Add you list here..."
+                id="input"
+                value={newItem.value}
+              />
+              <button type="submit" className="todolist__button"></button>
+            </form>
           </div>
           <div className="todolist__container">
             {addItem.map((store) => {
