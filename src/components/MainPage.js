@@ -11,24 +11,34 @@ const MainPage = () => {
   });
 
   const [addItem, setAddItem] = useState(
-    JSON.parse(localStorage.getItem('addedItem'))
+    localStorage.getItem('addedItem')
+      ? JSON.parse(localStorage.getItem('addedItem'))
+      : []
   );
 
+  console.log(addItem);
+
   const newItemHandler = (event) => {
-    setItem({ value: event.target.value, id: shortid.generate() });
+    setItem({
+      value: event.target.value,
+      id: shortid.generate(),
+      trigger: false,
+    });
   };
 
   const newItemTrigger = (e) => {
     e.preventDefault();
     if (newItem.value) {
       setAddItem((preState) => {
-        return [...preState, { value: newItem.value, id: newItem.id }];
-      });
-      setItem({
-        value: '',
-        id: e.target.id,
+        return [
+          ...preState,
+          { value: newItem.value, id: newItem.id, trigger: false },
+        ];
       });
       localStorage.setItem('addedItem', JSON.stringify(addItem));
+      setItem({
+        value: '',
+      });
     }
   };
 
@@ -38,7 +48,14 @@ const MainPage = () => {
     });
 
     setAddItem(deleteItem);
-    localStorage.setItem('addedItem', JSON.stringify(deleteItem));
+    localStorage.setItem(
+      'addedItem',
+      JSON.stringify(
+        addItem.filter((item) => {
+          return item.id !== id;
+        })
+      )
+    );
   };
 
   const editItemHandler = (id) => {
@@ -52,22 +69,25 @@ const MainPage = () => {
     setItem({
       value: selectedItem.value,
     });
+    localStorage.setItem('addedItem', JSON.stringify(editItem));
   };
-  let key = false;
   const finishedHandler = (id) => {
-    if (!key) {
-      const element = document.getElementById(id);
-      element.classList.add('check-style');
-      key = true;
-      console.log(key);
-    } else {
-      const element = document.getElementById(id);
-      element.classList.remove('check-style');
-      key = false;
-      console.log(key);
-    }
+    const selectedItem = addItem.find((item) => item.id === id);
+    // if (addItem.id === id) {
+    //   const element = document.getElementById(id);
+    //   element.classList.add('check-style');
+    //   key=true;
+    //   console.log(key);
+    // } else {
+    //   const element = document.getElementById(id);
+    //   element.classList.remove('check-style');
+    //   key=false;
+    //   console.log(key);
+    // }
+    console.log(selectedItem);
   };
 
+  console.log(addItem);
   return (
     <div className="mainpage__container">
       <header className="mainpage__header">
