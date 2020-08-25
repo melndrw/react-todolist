@@ -3,34 +3,36 @@ import Todolist from './Todolist';
 import shortid from 'shortid';
 
 const MainPage = () => {
-  const [todolist, setTodolist] = useState({
+  const [newItem, setItem] = useState({
     value: '',
-    storage: [],
+    id: '',
   });
 
-  const triggerHandler = () => {
-    const todos = todolist.storage.slice();
-    let input = document.querySelector('#input');
-    input.addEventListener('keyup', (event) => {
-      if (event.keyCode === 13) {
-        todos.push({
-          id: shortid.generate(),
-          value: event.target.value,
-        });
-        setTodolist((preState) => {
-          return {
-            ...preState,
-            storage: todos,
-            value: '',
-          };
-        });
-      }
-    });
+  const [addItem, setAddItem] = useState([]);
+
+  const newItemHandler = (event) => {
+    setItem({ value: event.target.value, id: shortid.generate() });
   };
 
-  const changeHandler = (event) => {
-    setTodolist({ value: event.target.value, storage: todolist.storage });
+  const newItemTrigger = () => {
+    // let input = document.querySelector('#input');
+    // input.addEventListener('keydown', (e) => {
+    //   if (e.keyCode === 13) {
+    //     console.log(e.target.value);
+    //   }
+    // });
+
+    if (newItem.value) {
+      setAddItem((preState) => {
+        return [...preState, { value: newItem.value, id: newItem.id }];
+      });
+      setItem({
+        value: '',
+        id: '',
+      });
+    }
   };
+
   return (
     <div className="mainpage__container">
       <header className="mainpage__header">
@@ -44,20 +46,22 @@ const MainPage = () => {
             </p>
             <p>
               A simple todolist app built with React Hooks &{' '}
-              <span onClick={triggerHandler}>Context</span>
+              <span onClick={newItemTrigger} id="sp">
+                Context
+              </span>
             </p>
           </div>
           <div>
             <input
               type="text"
-              onChange={changeHandler}
+              onChange={newItemHandler}
               placeholder="Add you list here..."
               id="input"
-              value={todolist.value}
+              value={newItem.value}
             />
           </div>
           <div className="todolist__container">
-            {todolist.storage.map((store) => {
+            {addItem.map((store) => {
               return <Todolist value={store.value} key={store.id} />;
             })}
           </div>
