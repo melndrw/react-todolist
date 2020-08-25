@@ -8,9 +8,8 @@ const Todolist = (props) => {
         <i
           className="fas fa-trash"
           onClick={() => props.onDelete(props.id)}
-          name={props.id}
         ></i>
-        <i className="fas fa-pen" name={props.id}></i>
+        <i className="fas fa-pen" onClick={() => props.onEdit(props.id)}></i>
       </span>
     </div>
   );
