@@ -27,6 +27,14 @@ const MainPage = () => {
     }
   };
 
+  const deleteItemHandler = (id) => {
+    setAddItem((prevState) => {
+      return prevState.filter((item) => {
+        return item.id !== id;
+      });
+    });
+  };
+
   return (
     <div className="mainpage__container">
       <header className="mainpage__header">
@@ -54,7 +62,14 @@ const MainPage = () => {
           </div>
           <div className="todolist__container">
             {addItem.map((store) => {
-              return <Todolist value={store.value} key={store.id} />;
+              return (
+                <Todolist
+                  value={store.value}
+                  key={store.id}
+                  id={store.id}
+                  onDelete={deleteItemHandler}
+                />
+              );
             })}
           </div>
         </div>
