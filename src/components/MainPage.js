@@ -8,7 +8,9 @@ const MainPage = () => {
     id: '',
   });
 
-  const [addItem, setAddItem] = useState([]);
+  const [addItem, setAddItem] = useState(
+    JSON.parse(localStorage.getItem('addedItem'))
+  );
 
   const newItemHandler = (event) => {
     setItem({ value: event.target.value, id: shortid.generate() });
@@ -24,6 +26,7 @@ const MainPage = () => {
         value: '',
         id: '',
       });
+      localStorage.setItem('addedItem', JSON.stringify(addItem));
     }
   };
 
@@ -33,11 +36,7 @@ const MainPage = () => {
     });
 
     setAddItem(deleteItem);
-    // setAddItem((prevState) => {
-    //   return prevState.filter((item) => {
-    //     return item.id !== id;
-    //   });
-    // });
+    localStorage.setItem('addedItem', JSON.stringify(deleteItem));
   };
 
   const editItemHandler = (id) => {
