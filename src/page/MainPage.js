@@ -70,6 +70,7 @@ const MainPage = () => {
         list: find.newItems,
       };
     });
+    console.log(find.newItems);
 
     const deleteItem = find.newItems.filter((item) => {
       return item.id !== id;
@@ -154,6 +155,7 @@ const MainPage = () => {
                   onEdit={editItemHandler}
                   checkStyle={store.trigger && 'check-style check-color'}
                   checkClick={finishedHandler}
+                  show={store.animate}
                 />
               );
             })}

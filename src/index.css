@@ -125,39 +125,7 @@ input {
   cursor: pointer;
 }
 .check-style {
-  /* color: hsl(0, 0%, 80%); */
+  color: hsl(0, 0%, 80%);
   background-color: #eaf2f2;
-  text-decoration: line-through;
-}
-.check-color {
-  color: red;
-}
-
-/* CSS TRansition for new list */
-
-.list-trans-enter {
-  opacity: 0;
-  transform: translateX(10rem);
-}
-.list-trans-active {
-  opacity: 1;
-  transition: all 1000ms;
-  transform: translateX(0);
-}
-.list-trans-exit {
-  opacity: 1;
-  transform: translateX(0);
-}
-.list-trans-exit-active {
-  opacity: 0;
-  transform: translateX(-10rem);
-  transition: all 1000ms;
-}
-/* CSS Transition for subtitle */
-.sub-title-enter {
-  opacity: 0;
-}
-.sub-title-enter-active {
-  opacity: 1;
-  transition: opacity 1000ms;
+  text-decoration: overline;
 }
