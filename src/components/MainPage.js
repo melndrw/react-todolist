@@ -14,7 +14,6 @@ const MainPage = () => {
       ? JSON.parse(sessionStorage.getItem('addedItem'))
       : [],
   });
-
   const newItemHandler = (event) => {
     setItem({ value: event.target.value, id: shortid.generate() });
   };
