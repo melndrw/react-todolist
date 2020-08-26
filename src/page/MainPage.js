@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Todolist from './Todolist';
+import Todolist from '../components/Todolist';
 import shortid from 'shortid';
-import Form from './Form';
+import Form from '../components/Form';
 
 const MainPage = () => {
   const [newItem, setItem] = useState({
@@ -14,6 +14,7 @@ const MainPage = () => {
       ? JSON.parse(sessionStorage.getItem('addedItem'))
       : [],
   });
+
   const newItemHandler = (event) => {
     setItem({
       value: event.target.value,
