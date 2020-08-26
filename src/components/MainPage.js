@@ -7,17 +7,13 @@ const MainPage = () => {
   const [newItem, setItem] = useState({
     value: '',
     id: '',
-    trigger: false,
   });
 
-  const [addItem, setAddItem] = useState(
-    localStorage.getItem('addedItem')
-      ? JSON.parse(localStorage.getItem('addedItem'))
-      : []
-  );
-
-  console.log(addItem);
-
+  const [addItem, setAddItem] = useState({
+    list: sessionStorage.getItem('addedItem')
+      ? JSON.parse(sessionStorage.getItem('addedItem'))
+      : [],
+  });
   const newItemHandler = (event) => {
     setItem({
       value: event.target.value,
@@ -28,63 +24,74 @@ const MainPage = () => {
 
   const newItemTrigger = (e) => {
     e.preventDefault();
+    const newItems = addItem.list.slice();
     if (newItem.value) {
+      newItems.push({ value: newItem.value, id: newItem.id, trigger: false });
       setAddItem((preState) => {
-        return [
+        return {
           ...preState,
-          { value: newItem.value, id: newItem.id, trigger: false },
-        ];
+          list: newItems,
+        };
       });
       localStorage.setItem('addedItem', JSON.stringify(addItem));
       setItem({
         value: '',
+        id: '',
       });
+      sessionStorage.setItem('addedItem', JSON.stringify(newItems));
     }
   };
 
   const deleteItemHandler = (id) => {
-    const deleteItem = addItem.filter((item) => {
+    const deleteItem = addItem.list.filter((item) => {
       return item.id !== id;
     });
 
-    setAddItem(deleteItem);
-    localStorage.setItem(
-      'addedItem',
-      JSON.stringify(
-        addItem.filter((item) => {
-          return item.id !== id;
-        })
-      )
-    );
+    setAddItem((preState) => {
+      return {
+        ...preState,
+        list: deleteItem,
+      };
+    });
+    sessionStorage.setItem('addedItem', JSON.stringify(deleteItem));
   };
 
   const editItemHandler = (id) => {
-    const editItem = addItem.filter((item) => {
+    const editItem = addItem.list.filter((item) => {
       return item.id !== id;
     });
 
-    const selectedItem = addItem.find((item) => item.id === id);
+    const selectedItem = addItem.list.find((item) => item.id === id);
+    setAddItem((preState) => {
+      return {
+        ...preState,
+        list: editItem,
+      };
+    });
 
-    setAddItem(editItem);
     setItem({
       value: selectedItem.value,
     });
-    localStorage.setItem('addedItem', JSON.stringify(editItem));
+    sessionStorage.setItem('addedItem', JSON.stringify(editItem));
   };
+
   const finishedHandler = (id) => {
-    const selectedItem = addItem.find((item) => item.id === id);
-    // if (addItem.id === id) {
-    //   const element = document.getElementById(id);
-    //   element.classList.add('check-style');
-    //   key=true;
-    //   console.log(key);
-    // } else {
-    //   const element = document.getElementById(id);
-    //   element.classList.remove('check-style');
-    //   key=false;
-    //   console.log(key);
-    // }
-    console.log(selectedItem);
+    const newItems = addItem.list.slice();
+    const selectedItem = addItem.list.find((item) => item.id === id);
+    const selectedIndex = addItem.list.findIndex((item) => {
+      return item.id === id;
+    });
+    newItems[selectedIndex] = {
+      ...newItems[selectedIndex],
+      trigger: !selectedItem.trigger,
+    };
+    setAddItem((prevState) => {
+      return {
+        ...prevState,
+        list: newItems,
+      };
+    });
+    sessionStorage.setItem('addedItem', JSON.stringify(newItems));
   };
 
   console.log(addItem);
@@ -111,7 +118,7 @@ const MainPage = () => {
             />
           </div>
           <div className="todolist__container">
-            {addItem.map((store) => {
+            {addItem.list.map((store) => {
               return (
                 <Todolist
                   value={store.value}
@@ -119,7 +126,7 @@ const MainPage = () => {
                   id={store.id}
                   onDelete={deleteItemHandler}
                   onEdit={editItemHandler}
-                  checkStyle={newItem.trigger && 'check-style'}
+                  checkStyle={store.trigger && 'check-style check-color'}
                   checkClick={finishedHandler}
                 />
               );
