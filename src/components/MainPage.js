@@ -8,9 +8,11 @@ const MainPage = () => {
     id: '',
   });
 
-  const [addItem, setAddItem] = useState(
-    JSON.parse(localStorage.getItem('addedItem'))
-  );
+  const [addItem, setAddItem] = useState({
+    list: localStorage.getItem('addedItem')
+      ? JSON.parse(localStorage.getItem('addedItem'))
+      : [],
+  });
 
   const newItemHandler = (event) => {
     setItem({ value: event.target.value, id: shortid.generate() });
@@ -18,15 +20,23 @@ const MainPage = () => {
 
   const newItemTrigger = (e) => {
     e.preventDefault();
+    const newItems = addItem.list.slice();
     if (newItem.value) {
+      newItems.push({ value: newItem.value, id: newItem.id });
       setAddItem((preState) => {
-        return [...preState, { value: newItem.value, id: newItem.id }];
+        return {
+          ...preState,
+          list: newItems,
+        };
       });
+      // setAddItem((preState) => {
+      //   return [...preState, { value: newItem.value, id: newItem.id }];
+      // });
       setItem({
         value: '',
         id: '',
       });
-      localStorage.setItem('addedItem', JSON.stringify(addItem));
+      localStorage.setItem('addedItem', JSON.stringify(newItems));
     }
   };
 
@@ -35,7 +45,12 @@ const MainPage = () => {
       return item.id !== id;
     });
 
-    setAddItem(deleteItem);
+    setAddItem((preState) => {
+      return {
+        ...preState,
+        list: deleteItem,
+      };
+    });
     localStorage.setItem('addedItem', JSON.stringify(deleteItem));
   };
 
@@ -45,8 +60,13 @@ const MainPage = () => {
     });
 
     const selectedItem = addItem.find((item) => item.id === id);
+    setAddItem((preState) => {
+      return {
+        ...preState,
+        list: editItem,
+      };
+    });
 
-    setAddItem(editItem);
     setItem({
       value: selectedItem.value,
     });
@@ -78,7 +98,7 @@ const MainPage = () => {
             </form>
           </div>
           <div className="todolist__container">
-            {addItem.map((store) => {
+            {addItem.list.map((store) => {
               return (
                 <Todolist
                   value={store.value}
