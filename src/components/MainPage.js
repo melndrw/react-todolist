@@ -41,7 +41,7 @@ const MainPage = () => {
   };
 
   const deleteItemHandler = (id) => {
-    const deleteItem = addItem.filter((item) => {
+    const deleteItem = addItem.list.filter((item) => {
       return item.id !== id;
     });
 
@@ -55,11 +55,11 @@ const MainPage = () => {
   };
 
   const editItemHandler = (id) => {
-    const editItem = addItem.filter((item) => {
+    const editItem = addItem.list.filter((item) => {
       return item.id !== id;
     });
 
-    const selectedItem = addItem.find((item) => item.id === id);
+    const selectedItem = addItem.list.find((item) => item.id === id);
     setAddItem((preState) => {
       return {
         ...preState,
