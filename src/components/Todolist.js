@@ -2,12 +2,13 @@ import React from 'react';
 
 const Todolist = (props) => {
   return (
-    <div
-      className={`todolist ${props.checkStyle}`}
-      id={props.id}
-      onClick={() => props.checkClick(props.id)}
-    >
-      {props.value}{' '}
+    <div className={`todolist ${props.checkStyle}`} id={props.id}>
+      <span
+        onClick={() => props.checkClick(props.id)}
+        className="todolist__content"
+      >
+        {props.value}
+      </span>
       <span>
         <i
           className="fas fa-trash"

@@ -102,9 +102,13 @@ input {
   border-radius: 0.5rem;
   margin: 1rem;
   height: 2rem;
+  /* cursor: pointer; */
+}
+.todolist__content {
+  display: inline-block;
   cursor: pointer;
 }
-.todolist span {
+.todolist span:last-child {
   float: right;
 }
 .todolist span i {
@@ -121,6 +125,10 @@ input {
   cursor: pointer;
 }
 .check-style {
-  color: red;
+  /* color: hsl(0, 0%, 80%); */
   background-color: #eaf2f2;
+  text-decoration: line-through;
+}
+.check-color {
+  color: red;
 }
