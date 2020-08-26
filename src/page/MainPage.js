@@ -4,7 +4,6 @@ import shortid from 'shortid';
 import Form from '../components/Form';
 import Header from '../components/Header';
 import MainTitle from '../components/MainTitle';
-import Fade from 'react-reveal/Fade';
 
 const MainPage = () => {
   const [newItem, setItem] = useState({
