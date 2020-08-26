@@ -15,7 +15,11 @@ const MainPage = () => {
       : [],
   });
   const newItemHandler = (event) => {
-    setItem({ value: event.target.value, id: shortid.generate() });
+    setItem({
+      value: event.target.value,
+      id: shortid.generate(),
+      trigger: false,
+    });
   };
 
   const newItemTrigger = (e) => {
@@ -29,6 +33,7 @@ const MainPage = () => {
           list: newItems,
         };
       });
+      localStorage.setItem('addedItem', JSON.stringify(addItem));
       setItem({
         value: '',
         id: '',
@@ -89,6 +94,7 @@ const MainPage = () => {
     sessionStorage.setItem('addedItem', JSON.stringify(newItems));
   };
 
+  console.log(addItem);
   return (
     <div className="mainpage__container">
       <header className="mainpage__header">
