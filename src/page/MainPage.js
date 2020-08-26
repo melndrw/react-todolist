@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Todolist from '../components/Todolist';
 import shortid from 'shortid';
 import Form from '../components/Form';
+import Header from '../components/Header';
+import MainTitle from '../components/MainTitle';
+import Fade from 'react-reveal/Fade';
 
 const MainPage = () => {
   const [newItem, setItem] = useState({
@@ -19,7 +22,6 @@ const MainPage = () => {
     setItem({
       value: event.target.value,
       id: shortid.generate(),
-      trigger: false,
     });
   };
 
@@ -27,7 +29,12 @@ const MainPage = () => {
     e.preventDefault();
     const newItems = addItem.list.slice();
     if (newItem.value) {
-      newItems.push({ value: newItem.value, id: newItem.id, trigger: false });
+      newItems.push({
+        value: newItem.value,
+        id: newItem.id,
+        trigger: false,
+        animate: true,
+      });
       setAddItem((preState) => {
         return {
           ...preState,
@@ -43,8 +50,29 @@ const MainPage = () => {
     }
   };
 
+  function finder(id) {
+    const newItems = addItem.list.slice();
+    const selectedItem = addItem.list.find((item) => item.id === id);
+    const selectedIndex = addItem.list.findIndex((item) => item.id === id);
+
+    return { newItems, selectedItem, selectedIndex };
+  }
+
   const deleteItemHandler = (id) => {
-    const deleteItem = addItem.list.filter((item) => {
+    const find = finder(id);
+    find.newItems[find.selectedIndex] = {
+      ...find.newItems[find.selectedIndex],
+      animate: !find.selectedItem.animate,
+    };
+
+    setAddItem((prevState) => {
+      return {
+        ...prevState,
+        list: find.newItems,
+      };
+    });
+
+    const deleteItem = find.newItems.filter((item) => {
       return item.id !== id;
     });
 
@@ -58,57 +86,54 @@ const MainPage = () => {
   };
 
   const editItemHandler = (id) => {
-    const editItem = addItem.list.filter((item) => {
+    const find = finder(id);
+    find.newItems[find.selectedIndex] = {
+      ...find.newItems[find.selectedIndex],
+      animate: !find.selectedItem.animate,
+    };
+
+    setAddItem((prevState) => {
+      return {
+        ...prevState,
+        list: find.newItems,
+      };
+    });
+    const deleteItem = find.newItems.filter((item) => {
       return item.id !== id;
     });
-
-    const selectedItem = addItem.list.find((item) => item.id === id);
     setAddItem((preState) => {
       return {
         ...preState,
-        list: editItem,
+        list: deleteItem,
       };
     });
-
     setItem({
-      value: selectedItem.value,
+      value: find.selectedItem.value,
     });
-    sessionStorage.setItem('addedItem', JSON.stringify(editItem));
+    sessionStorage.setItem('addedItem', JSON.stringify(deleteItem));
   };
 
   const finishedHandler = (id) => {
-    const newItems = addItem.list.slice();
-    const selectedItem = addItem.list.find((item) => item.id === id);
-    const selectedIndex = addItem.list.findIndex((item) => {
-      return item.id === id;
-    });
-    newItems[selectedIndex] = {
-      ...newItems[selectedIndex],
-      trigger: !selectedItem.trigger,
+    const find = finder(id);
+    find.newItems[find.selectedIndex] = {
+      ...find.newItems[find.selectedIndex],
+      trigger: !find.selectedItem.trigger,
     };
     setAddItem((prevState) => {
       return {
         ...prevState,
-        list: newItems,
+        list: find.newItems,
       };
     });
-    sessionStorage.setItem('addedItem', JSON.stringify(newItems));
+    sessionStorage.setItem('addedItem', JSON.stringify(find.newItems));
   };
 
-  console.log(addItem);
   return (
     <div className="mainpage__container">
-      <header className="mainpage__header">
-        <a href="#!">React Todo List</a>
-      </header>
+      <Header />
       <main className="mainpage__main">
         <div className="mainpage__main--content">
-          <div className="mainpage__main--title">
-            <p>
-              todo<span>list</span>
-            </p>
-            <p>A simple todolist app built with React Hooks & Context</p>
-          </div>
+          <MainTitle />
           <div>
             <Form
               placeholder="Add you task here..."
@@ -118,6 +143,7 @@ const MainPage = () => {
               value={newItem.value}
             />
           </div>
+
           <div className="todolist__container">
             {addItem.list.map((store) => {
               return (
