@@ -4,6 +4,7 @@ import shortid from 'shortid';
 import Form from '../components/Form';
 import Header from '../components/Header';
 import MainTitle from '../components/MainTitle';
+import Fade from 'react-reveal/Fade';
 
 const MainPage = () => {
   const [newItem, setItem] = useState({
@@ -147,16 +148,19 @@ const MainPage = () => {
           <div className="todolist__container">
             {addItem.list.map((store) => {
               return (
-                <Todolist
-                  value={store.value}
-                  key={store.id}
-                  id={store.id}
-                  onDelete={deleteItemHandler}
-                  onEdit={editItemHandler}
-                  checkStyle={store.trigger && 'check-style check-color'}
-                  checkClick={finishedHandler}
-                  show={store.animate}
-                />
+                <Fade left>
+                  <Todolist
+                    value={store.value}
+                    key={store.id}
+                    id={store.id}
+                    onDelete={deleteItemHandler}
+                    onEdit={editItemHandler}
+                    checkStyle={store.trigger && 'check-style check-color'}
+                    checkClick={finishedHandler}
+                    show={store.animate}
+                    checked={store.trigger}
+                  />
+                </Fade>
               );
             })}
           </div>

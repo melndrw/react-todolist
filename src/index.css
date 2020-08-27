@@ -10,7 +10,7 @@ body,
 input {
   margin: 0;
   padding: 0;
-  background-color: #eaf2f2;
+  background-color: #eff5f5;
   /* height: 100%; */
   font-family: Montserrat, Arial, Helvetica, sans-serif;
   font-size: 1.6rem;
@@ -21,11 +21,11 @@ input {
   display: grid;
   grid-template-areas:
     'header'
-    'main'
-    'footer';
-  grid-template-rows: 6rem 1fr 5rem;
+    'main';
+
+  grid-template-rows: 6rem 1fr;
   grid-template-columns: 1fr;
-  height: 100vh;
+  height: 100%;
 }
 .mainpage__header {
   background-color: #e6e6e6;
@@ -83,11 +83,12 @@ input {
 
 .mainpage__footer {
   background-color: #e6e6e6;
-  grid-area: footer;
   font-size: 1.6rem;
   display: flex;
+  padding: 2rem;
   justify-content: center;
   align-items: center;
+  margin-top: 57vh;
 }
 
 /* Todolist */
@@ -96,36 +97,51 @@ input {
   font-size: 2rem;
 }
 .todolist {
-  background-color: hsl(180, 24%, 86%);
-  width: 47rem;
+  background-color: #dfecec;
+  min-width: 47rem;
   padding: 1rem;
   border-radius: 0.5rem;
   margin: 1rem;
   height: 2rem;
-  /* cursor: pointer; */
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
 }
 .todolist__content {
   display: inline-block;
   cursor: pointer;
 }
-.todolist span:last-child {
-  float: right;
-}
-.todolist span i {
+.todolist div i {
   padding: 0 0.5rem;
 }
 
 .fa-trash {
   color: red;
   cursor: pointer;
+  transition: all 0.3s;
+}
+.fa-trash:hover {
+  color: #cc0000;
+  transform: scale(1.1);
 }
 .fa-pen {
   margin-left: 1rem;
-  color: hsl(180, 100%, 43%);
+  color: #00dbdb;
   cursor: pointer;
+  transition: all 0.3s;
+}
+.fa-pen:hover {
+  color: #00b3b3;
+  transform: scale(1.1);
 }
 .check-style {
-  color: hsl(0, 0%, 80%);
-  background-color: #eaf2f2;
-  text-decoration: overline;
+  color: hsl(0, 0%, 75%);
+  background-color: #eff5f5;
+  text-decoration: line-through;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 50%;
+  }
 }
